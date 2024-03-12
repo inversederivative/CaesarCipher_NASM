@@ -56,6 +56,12 @@
 
 ; Decipher (char* message, int offset)
 
+;static char* Decipher(char* message, int offset) {
+;    // Invert the offset
+;    int invertedOffset = -offset;
+;    return Cipher(message, invertedOffset);
+;}
+
         extern strlen, malloc, exit
         global ReturnFourtyOne, Cipher, Decipher
 
@@ -174,5 +180,18 @@ forLoopCondition:
 
 
 Decipher:
-
-        ret
+        push    rbp                 ; Save the base pointer
+        mov     rbp, rsp            ; Set up the base pointer
+        sub     rsp, 32             ; Allocate space on the stack for local variables
+        mov     QWORD [rbp-24], rdi ; Save the first argument (message pointer)
+        mov     DWORD [rbp-28], esi ; Save the second argument (offset)
+        mov     eax, DWORD [rbp-28] ; Load the offset into eax
+        neg     eax                 ; Negate the offset to invert it
+        mov     DWORD [rbp-4], eax  ; Store the inverted offset
+        mov     edx, DWORD [rbp-4]  ; Load the inverted offset into edx
+        mov     rax, QWORD [rbp-24] ; Load the message pointer into rax
+        mov     esi, edx            ; Move the inverted offset into esi
+        mov     rdi, rax            ; Pass the message pointer as the first argument
+        call    Cipher              ; Call the Cipher function with the inverted offset
+        leave                       ; Restore the stack frame
+        ret                         ; Return

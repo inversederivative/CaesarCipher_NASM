@@ -18,9 +18,9 @@ extern "C"
     // Dummy function
     static int ReturnFourtyOne();
 
-    char* Cipher(char* message, int offset);
+    static char* Cipher(char* message, int offset);
 
-    char* Decipher(char* message, int offset);
+    static char* Decipher(char* message, int offset);
 
 #ifdef __cplusplus
 } //End of extern "C" bloc

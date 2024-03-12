@@ -13,3 +13,16 @@ TEST(Cipher_Tests, Test_Dummy_Function)
 
     EXPECT_EQ(expected, actual);
 }
+
+TEST(Cipher_Tests, Test_Cipher_CapitalLetter)
+{
+    char letter = 'A';
+    char* expected = "B";
+
+    char* cipherText = reinterpret_cast<char *>(letter);
+
+    // Should produce A + 1
+    char* actual = Cipher(cipherText, 1);
+
+    EXPECT_EQ(expected, actual);
+}
